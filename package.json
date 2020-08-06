@@ -18,7 +18,7 @@
     "log4js": "^6.3.0",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
-    "mongodb": "^3.5.8",
+    "mongodb": "^3.6.0",
     "node-forge": "^0.9.1",
     "node-cache": "^5.1.1",
     "ioredis": "^4.17.3",
