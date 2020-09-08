@@ -89,6 +89,8 @@ function test()
         async.apply(mongotest1, mongodb),
         async.apply(mongotest1, mongodb), // For cache test
         async.apply(httptest1, httpclient),
+        async.apply(httptest1, httpclient),
+        async.apply(httptest1, httpclient),
         async.apply(redisBulktest, redisCache),
         async.apply(redisGet, redisCache, 'a'),
         async.apply(redisGet, redisCache, 'b'),
@@ -178,18 +180,20 @@ function httptest1(http, callback)
 {
     let queryObject = {
         method: 'get',
-        url: 'https://apis.pooq.co.kr/ip',
+        url: 'http://wavve-apis/whereami',
         params: {
             apikey: 'E5F3E0D30947AA5440556471321BB6D9',
             credential: 'none',
             device: 'pc',
-            drm: 'wm',
+            drm: 'wmz',
             partner: 'pooq',
             pooqzone: 'none',
             region: 'kor',
             targetage: 'auto'
         },
-        timeout: 300
+        timeout: 300,
+        useRedis: true,
+        RedisTtl: 100
     };
     let retryConfig = {
         times: 3,
@@ -200,12 +204,12 @@ function httptest1(http, callback)
     {
         if (err)
         {
-            console.log('redisinit err=' + err);
+            console.log('httptest1 err=' + err);
             process.exit(-1);
         }
         else
         {
-            console.log('result=' + util2.stringify(result.data, null, 2));
+            console.log('httptest1 result=' + util2.stringify(result.data, null, 2));
             callback(null)
         }
     });
@@ -238,7 +242,8 @@ function redisBulktest(redisCache, callback)
 
 function redisGet(redisCache, key, callback)
 {
-    redisCache.get(key, function(err,result){
+    redisCache.get(key, function (err, result)
+    {
         if (err)
         {
             console.log('redisGet err=' + err);
