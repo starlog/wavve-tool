@@ -6,6 +6,7 @@ let wavve_tool = {
         httpclient: require('./lib/interface/httpclient'),
         mongodb: require('./lib/interface/mongodb'),
         redisCache: require('./lib/interface/redisCache'),
+        redisCacheMulti: require('./lib/interface/redisCacheMulti'),
     },
     util: {
         circuitbreaker: require('./lib/util/circuitBreaker'),
