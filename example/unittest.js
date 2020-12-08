@@ -8,6 +8,8 @@ let lap = require('../lib/util/lap');
 let util2 = require('../lib/util/util2');
 let async = require('async');
 
+let redisCacheMulti = require('../lib/interface/redisCacheMulti');
+
 const mongoConnections = [
     {
         name: 'contents',
@@ -74,7 +76,35 @@ const redisConnections = {
     name: 'common-redis-sentinel'
 };
 
+const redisConfigConnections = {
+    sentinels: [
+        {host: 'redis-config-01.local.wavve.com', port: 26379},
+        {host: 'redis-config-02.local.wavve.com', port: 26379},
+        {host: 'redis-config-03.local.wavve.com', port: 26379},
+        {host: 'redis-config-04.local.wavve.com', port: 26379},
+        {host: 'redis-config-05.local.wavve.com', port: 26379}
+    ],
+    name: 'config-redis-sentinel'
+};
+
+
 test(); // 테스트 실행
+
+// test2();
+
+function test2()
+{
+    async.series([
+        async.apply(redisCacheMulti.init, redisConnections.sentinels, redisConnections.name),
+        async.apply(redisCacheMulti.init, redisConfigConnections.sentinels, redisConfigConnections.name),
+        async.apply(redisCacheMulti.set, 'common-redis-sentinel', 'TEST', 'TEST', 60),
+    ],function(err){
+        redisCacheMulti.get('config-redis-sentinel', 'bo_free_contents_live', function(err,result){
+            console.log(result);
+        });
+    });
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function test()
