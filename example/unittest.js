@@ -88,9 +88,9 @@ const redisConfigConnections = {
 };
 
 
-test(); // 테스트 실행
+// test(); // 테스트 실행
 
-// test2();
+test2();
 
 function test2()
 {
@@ -98,6 +98,7 @@ function test2()
         async.apply(redisCacheMulti.init, redisConnections.sentinels, redisConnections.name),
         async.apply(redisCacheMulti.init, redisConfigConnections.sentinels, redisConfigConnections.name),
         async.apply(redisCacheMulti.set, 'common-redis-sentinel', 'TEST', 'TEST', 60),
+        async.apply(httptest1, httpclient),
     ],function(err){
         redisCacheMulti.get('config-redis-sentinel', 'bo_free_contents_live', function(err,result){
             console.log(result);
