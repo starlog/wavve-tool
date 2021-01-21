@@ -12,6 +12,7 @@ let wavve_tool = {
         circuitbreaker: require('./lib/util/circuitBreaker'),
         lap: require('./lib/util/lap'),
         util2: require('./lib/util/util2'),
+        emergency: require('./lib/util/emergency')
     }
 };
 
